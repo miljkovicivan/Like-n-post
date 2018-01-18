@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'likenpost.apps.user',
+    'likenpost.apps.post',
+    'likenpost.apps.like',
 ]
 
 MIDDLEWARE = [

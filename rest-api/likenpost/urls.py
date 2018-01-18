@@ -13,12 +13,25 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('post/', include('likenpost.apps.post.urls')),
-    path('like/', include('likenpost.apps.like.urls')),
-    path('user/', include('likenpost.apps.user.urls')),
+from django.contrib import admin
+from django.conf.urls import url, include
+from rest_framework import routers
+from likenpost.apps.user.views import UserView
+from likenpost.apps.post.views import PostViewSet
+from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
+
+router = routers.DefaultRouter()
+
+router.register('post', PostViewSet)
+
+
+urlpatterns = router.urls + [
+    url(r'^admin/', admin.site.urls),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'post/', include('likenpost.apps.post.urls', namespace='post')),
+    url(r'user/', include('likenpost.apps.user.urls', namespace='user')),
+    url(r'^api-token-auth/', obtain_jwt_token),
+    url(r'^api-token-refresh/', refresh_jwt_token),
+    url(r'^api-token-verify/', verify_jwt_token),
 ]

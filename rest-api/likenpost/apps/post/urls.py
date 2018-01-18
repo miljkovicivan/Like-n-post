@@ -1,9 +1,11 @@
 from django.urls import path
+from rest_framework import routers
+from likenpost.apps.post.views import PostViewSet
 
-from . import views
+router = routers.DefaultRouter()
+
+app_name = 'post'
 
 urlpatterns = [
-    path('', views.index, name='index'),
-]
-
-
+        path('', PostViewSet, name='post')
+    ]

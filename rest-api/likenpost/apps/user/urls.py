@@ -1,9 +1,11 @@
+from django.conf.urls import url, include
 from django.urls import path
+from rest_framework import routers
+from likenpost.apps.user.views import UserView
 
-from . import views
+router = routers.DefaultRouter()
+app_name = 'user'
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('<int:pk>/', UserView.as_view(), name='user'),
 ]
-
-

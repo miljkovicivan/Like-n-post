@@ -16,6 +16,7 @@ jobs:
       - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
       - run:
           command: |
+            pwd
             sudo pip install -r likenpost/requirements.txt
       - run:
           command: |

@@ -17,6 +17,7 @@ jobs:
       - run:
           command: |
             pwd
+            ls
             sudo pip install -r likenpost/requirements.txt
       - run:
           command: |

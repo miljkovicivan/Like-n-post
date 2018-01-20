@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_jwt',
 
-    'likenpost.apps.user',
     'likenpost.apps.post',
     'likenpost.apps.like',
 ]

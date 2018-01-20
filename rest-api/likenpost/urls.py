@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.conf.urls import url, include
 from rest_framework import routers
 from likenpost.apps.post.views import PostViewSet
+from django.conf import settings
 
 router = routers.DefaultRouter()
 
@@ -31,3 +32,9 @@ urlpatterns = router.urls + [
     url(r'^auth/', include('djoser.urls')),
     url(r'^auth/', include('djoser.urls.jwt')),
 ]
+
+if 'silk' in settings.INSTALLED_APPS:
+    urlpatterns += [
+        url(r'^silk/', include('silk.urls', namespace='silk'))
+    ]
+

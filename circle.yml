@@ -5,7 +5,7 @@ jobs:
     docker:
       - image: circleci/python:3.6.3
         environment:
-          DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
+          DJANGO_SETTINGS_MODULE: likenpost.settings.ci
       - image: circleci/postgres:10
         environment:
           POSTGRES_USER: postgres

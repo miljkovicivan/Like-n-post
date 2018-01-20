@@ -1,12 +1,19 @@
 from django.contrib.auth.models import User
-from likenpost.apps.post.models import Post
+from likenpost.apps.post.models import Post, Like
 from rest_framework import routers, serializers, viewsets
 
-class PostSerializer(serializers.HyperlinkedModelSerializer):
+
+class PostSerializer(serializers.ModelSerializer):
 
     owner = serializers.SlugRelatedField(
         read_only=True,
         slug_field='username',
+    )
+
+    likes = serializers.SlugRelatedField(
+        many=True,
+        read_only=True,
+        slug_field='username'
     )
 
     def create(self, validated_data):
@@ -15,5 +22,5 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('content', 'owner', 'url')
+        fields = ('content', 'owner', 'likes')
 

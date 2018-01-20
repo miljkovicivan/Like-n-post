@@ -21,7 +21,7 @@ from likenpost.apps.post.views import PostViewSet
 
 router = routers.DefaultRouter()
 
-router.register('post', PostViewSet)
+router.register('post', PostViewSet, base_name='post')
 
 
 urlpatterns = router.urls + [

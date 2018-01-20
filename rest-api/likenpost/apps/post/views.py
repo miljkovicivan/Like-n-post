@@ -6,7 +6,6 @@ from rest_framework.decorators import detail_route
 
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.none()
     serializer_class = PostSerializer
 
     def get_queryset(self):

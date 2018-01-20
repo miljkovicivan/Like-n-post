@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/rest-api/likenpost
+    working_directory: ~/rest-api
     docker:
       - image: circleci/python:3.6.3
         environment:
@@ -16,7 +16,7 @@ jobs:
       - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
       - run:
           command: |
-            sudo pip install -r requirements.txt
+            sudo pip install -r likenpost/requirements.txt
       - run:
           command: |
             python manage.py test likenpost.apps

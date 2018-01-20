@@ -6,15 +6,22 @@ from rest_framework.decorators import detail_route
 
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all()
+    queryset = Post.objects.none()
     serializer_class = PostSerializer
+
+    def get_queryset(self):
+        queryset = Post.objects.all()
+        if self.request.method in ['PUT', 'DELETE']:
+            queryset = queryset.filter(owner=self.request.user)
+        return queryset
+
 
     @detail_route(methods=['post'])
     def like(self, request, pk=None):
 
         post = self.get_object()
 
-        f = filter(lambda x: x.owner == request.user, post.like_set.all())
+        f = filter(lambda x: x.owner == request.user, post.likes.all())
         l = list(f)
 
         if len(l) != 0:
@@ -33,7 +40,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
         post = self.get_object()
 
-        f = filter(lambda x: x.owner == request.user, post.like_set.all())
+        f = filter(lambda x: x.owner == request.user, post.likes.all())
         l = list(f)
 
         if len(l) == 0:

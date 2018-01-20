@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework_jwt',
+    'djoser',
 
     'likenpost.apps.post',
     'likenpost.apps.like',
@@ -179,3 +180,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+#DJOSER = {
+#    'SERIALIZERS': {
+#        'user_create': 'likenpost.apps.user.serializers.UserCreateSerializer',
+#        'user': 'likenpost.apps.user.serializers.UserSerializer'
+#    },
+#}

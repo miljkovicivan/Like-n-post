@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'djoser',
 
     'likenpost.apps.post',
-    'likenpost.apps.like',
 ]
 
 MIDDLEWARE = [

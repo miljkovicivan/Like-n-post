@@ -4,17 +4,16 @@ from rest_framework import routers, serializers, viewsets
 
 class PostSerializer(serializers.HyperlinkedModelSerializer):
 
-    user = serializers.HyperlinkedRelatedField(
+    owner = serializers.SlugRelatedField(
         read_only=True,
-        many=False,
-        view_name='user:user'
+        slug_field='username',
     )
 
     def create(self, validated_data):
-        validated_data['user'] = self.context['request'].user
+        validated_data['owner'] = self.context['request'].user
         return Post.objects.create(**validated_data)
 
     class Meta:
         model = Post
-        fields = ('content', 'user', 'url')
+        fields = ('content', 'owner', 'url')
 

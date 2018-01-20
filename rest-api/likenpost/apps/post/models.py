@@ -6,4 +6,4 @@ from django.contrib.auth.models import User
 class Post(models.Model):
 
     content = models.TextField()
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    owner = models.ForeignKey(User, on_delete=models.DO_NOTHING)

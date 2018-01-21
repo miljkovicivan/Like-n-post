@@ -8,7 +8,7 @@ from django.core.exceptions import ValidationError
 import punter
 
 
-class PostSerializer(serializers.ModelSerializer):
+class PostSerializer(serializers.HyperlinkedModelSerializer):
 
     owner = serializers.SlugRelatedField(
         read_only=True,
@@ -27,7 +27,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('id', 'content', 'owner', 'likes')
+        fields = ('id', 'content', 'owner', 'likes', 'url')
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):

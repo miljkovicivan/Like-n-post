@@ -2,7 +2,7 @@ from rest_framework import viewsets, response, generics, permissions
 from django.contrib.auth.models import User
 from likenpost.apps.post.serializers import PostSerializer, UserSerializer, UserAdditionalDataSerializer
 from likenpost.apps.post.models import Post, Like, UserAdditionalData
-from rest_framework.decorators import detail_route
+from rest_framework.decorators import detail_route, list_route
 import clearbit
 from django.conf import settings
 
@@ -85,3 +85,20 @@ class PostViewSet(viewsets.ModelViewSet):
             status=200, data='OK'
         )
 
+    @list_route(methods=['get'])
+    def myposts(self, request):
+
+        queryset = Post.objects.filter(owner=request.user)
+
+        serializer = self.get_serializer(queryset, many=True)
+
+        return response.Response(serializer.data)
+
+    @list_route(methods=['get'])
+    def newposts(self, request):
+
+        queryset = Post.objects.exclude(owner=request.user)
+
+        serializer = self.get_serializer(queryset, many=True)
+
+        return response.Response(serializer.data)

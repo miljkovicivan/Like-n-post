@@ -1,8 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.functional import cached_property
+from django.contrib.postgres.fields import JSONField
 
 # Create your models here.
+
+class UserAdditionalData(models.Model):
+    user = models.OneToOneField(User, related_name='user_additional_data', on_delete=models.CASCADE)
+    additional_data = JSONField(null=True)
 
 class Post(models.Model):
 

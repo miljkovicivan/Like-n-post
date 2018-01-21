@@ -17,20 +17,22 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import url, include
 from rest_framework import routers
-from likenpost.apps.post.views import PostViewSet
+from likenpost.apps.post import views
 from django.conf import settings
+from rest_framework_jwt.views import obtain_jwt_token
 
 router = routers.DefaultRouter()
 
-router.register('post', PostViewSet, base_name='post')
+router.register('post', views.PostViewSet, base_name='post')
+router.register('user', views.UserViewSet, base_name='user')
+router.register('useradditionaldata', views.UserAdditionalDataViewSet, base_name='useradditionaldata')
 
 
 urlpatterns = router.urls + [
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'post/', include('likenpost.apps.post.urls', namespace='post')),
-    url(r'^auth/', include('djoser.urls')),
-    url(r'^auth/', include('djoser.urls.jwt')),
+    url(r'^api/', include(router.urls)),
+    url(r'^api/login/', obtain_jwt_token),
 ]
 
 if 'silk' in settings.INSTALLED_APPS:

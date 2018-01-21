@@ -1,8 +1,39 @@
-from rest_framework import viewsets, response, generics
+from rest_framework import viewsets, response, generics, permissions
 from django.contrib.auth.models import User
-from likenpost.apps.post.serializers import PostSerializer
-from likenpost.apps.post.models import Post, Like
+from likenpost.apps.post.serializers import PostSerializer, UserSerializer, UserAdditionalDataSerializer
+from likenpost.apps.post.models import Post, Like, UserAdditionalData
 from rest_framework.decorators import detail_route
+import clearbit
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+    permission_classes = (permissions.AllowAny,)
+
+    def get_queryset(self):
+        queryset = User.objects.all()
+        if self.request.method in ['PUT', 'DELETE']:
+            queryset = queryset.filter(pk=self.request.user.pk)
+        return queryset
+
+    def perform_create(self, serializer):
+
+        user = serializer.save()
+
+        clearbit.key = 'sk_6df61f7422cd064bd74318cb5fcfeb54'
+        additional_data = clearbit.Enrichment.find(email=user.email, stream=True)
+
+        UserAdditionalData.objects.create(user=user, additional_data=additional_data)
+
+
+class UserAdditionalDataViewSet(viewsets.ModelViewSet):
+    serializer_class = UserAdditionalDataSerializer
+
+    def get_queryset(self):
+        queryset = UserAdditionalData.objects.all()
+        if self.request.method in ['PUT', 'DELETE']:
+            queryset = queryset.filter(user=self.request.user)
+        return queryset
 
 
 class PostViewSet(viewsets.ModelViewSet):

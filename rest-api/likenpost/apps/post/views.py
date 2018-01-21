@@ -21,6 +21,9 @@ class UserViewSet(viewsets.ModelViewSet):
 
         user = serializer.save()
 
+        if 'bot' in self.request.query_params.keys():
+            return
+
         clearbit.key = settings.CLEARBIT_KEY
         additional_data = clearbit.Enrichment.find(email=user.email, stream=True)
 

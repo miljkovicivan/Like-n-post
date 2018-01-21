@@ -44,6 +44,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     def validate_email(self, value):
 
+        if 'bot' in self.context['request'].query_params.keys():
+            return value
         response = punter.search(settings.EMAIL_HUNTER_KEY, value)
 
         if response['status'] == 'success' and response['exist'] == True:

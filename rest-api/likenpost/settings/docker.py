@@ -26,7 +26,10 @@ SECRET_KEY = '(mum*@@)h_5fl+u5xremohv!%g)d@f@n_l$^m2o*#xs-%1ijkz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '0.0.0.0',
+    'localhost'
+]
 
 CLEARBIT_KEY = 'sk_6df61f7422cd064bd74318cb5fcfeb54'
 EMAIL_HUNTER_KEY = '8c36405bd929c1b5fdf3218752281dead809424f'

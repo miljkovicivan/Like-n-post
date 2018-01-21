@@ -33,6 +33,7 @@ urlpatterns = router.urls + [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include(router.urls)),
     url(r'^api/login/', obtain_jwt_token),
+    url(r'^api/post/', include('likenpost.apps.post.urls', namespace='post')),
 ]
 
 if 'silk' in settings.INSTALLED_APPS:

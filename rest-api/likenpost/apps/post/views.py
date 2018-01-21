@@ -4,6 +4,7 @@ from likenpost.apps.post.serializers import PostSerializer, UserSerializer, User
 from likenpost.apps.post.models import Post, Like, UserAdditionalData
 from rest_framework.decorators import detail_route
 import clearbit
+from django.conf import settings
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -20,7 +21,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
         user = serializer.save()
 
-        clearbit.key = 'sk_6df61f7422cd064bd74318cb5fcfeb54'
+        clearbit.key = settings.CLEARBIT_KEY
         additional_data = clearbit.Enrichment.find(email=user.email, stream=True)
 
         UserAdditionalData.objects.create(user=user, additional_data=additional_data)

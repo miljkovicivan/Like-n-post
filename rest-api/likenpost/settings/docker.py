@@ -28,6 +28,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CLEARBIT_KEY = 'sk_6df61f7422cd064bd74318cb5fcfeb54'
+EMAIL_HUNTER_KEY = '8c36405bd929c1b5fdf3218752281dead809424f'
+
 
 # Application definition
 

@@ -1,0 +1,1 @@
+docker-compose exec rest-api bash -c "python manage.py bot 0.0.0.0:8000"

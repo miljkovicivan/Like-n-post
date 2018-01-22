@@ -9,6 +9,7 @@ from likenpost.apps.post.models import Post, Like
 from likenpost.apps.post.factories import UserFactory
 from copy import deepcopy
 
+
 class Command(BaseCommand):
 
     def get_url(self, url):
@@ -38,17 +39,14 @@ class Command(BaseCommand):
 
     def let_the_liking_begin(self, users):
 
-
         end = False
         while not end:
 
             user = self.next_user_to_like(users)
-            try:
-                user = self.update_user(users, user)
-            except Exception:
-                import pdb; pdb.set_trace()
             if user is None:
-                return
+                end = True
+                break
+            user = self.update_user(users, user)
 
             for i in range(self.config['max_likes_per_user']):
 
@@ -129,9 +127,6 @@ class Command(BaseCommand):
             if p['owner'] != user['username'] and user['username'] not in p['likes'] and p['id'] not in user['likes']:
                 relevant_posts.append(p)
 
-        #relevant_posts = [post for post in all_posts if post['owner'] != user['username'] and user['username'] not in post['likes'] and post['id'] not in user['likes']]
-
-
         post = None
         end = False
         while not end:
@@ -195,7 +190,6 @@ class Command(BaseCommand):
             user = self.create_posts_for_user(user)
 
         return users
-
 
     def create_users(self):
         users = []

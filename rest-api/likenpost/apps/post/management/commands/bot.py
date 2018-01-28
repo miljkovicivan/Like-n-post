@@ -76,7 +76,7 @@ class Command(BaseCommand):
     def find_posts_to_like(self, user, posts):
         not_my_posts = [post for post in posts if post['owner'] != user['username'] and user['username'] not in post['likes']]
 
-        post = random.shuffle(not_my_posts)
+        random.shuffle(not_my_posts)
 
         num_of_posts = 0
         while(num_of_posts != self.config['max_likes_per_user'] and len(not_my_posts) != 0):

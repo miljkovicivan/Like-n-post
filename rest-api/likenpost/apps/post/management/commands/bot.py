@@ -22,6 +22,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.options = options
 
+        self.semaphore = asyncio.Semaphore(10)
         with open('./bot_conf/' + self.options['config'], 'r') as f:
             self.config = yaml.load(f)
 
@@ -66,12 +67,13 @@ class Command(BaseCommand):
             )
 
     async def like(self, user, post):
-        async with aiohttp.ClientSession() as session:
-            url = post['url'] + 'like/'
-            headers = {'Authorization': 'JWT ' + user['token']}
-            async with session.post(url, headers=headers) as response:
-                data = await response.json()
-                assert response.status, 200
+        with await self.semaphore:
+            async with aiohttp.ClientSession() as session:
+                url = post['url'] + 'like/'
+                headers = {'Authorization': 'JWT ' + user['token']}
+                async with session.post(url, headers=headers) as response:
+                    data = await response.json()
+                    assert response.status, 200
 
     def find_posts_to_like(self, user, posts):
         not_my_posts = [post for post in posts if post['owner'] != user['username'] and user['username'] not in post['likes']]
@@ -102,30 +104,33 @@ class Command(BaseCommand):
             'password': user['password'],
             'email': user['email'],
         }
-        async with aiohttp.ClientSession() as session:
-            async with session.post(self.get_url('/api/user/'), data=payload) as response:
-                data = await response.json()
-                data['password'] = user['password'] # needed for login
-                assert response.status, 201
-                return data
+        with await self.semaphore:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(self.get_url('/api/user/'), data=payload) as response:
+                    data = await response.json()
+                    data['password'] = user['password'] # needed for login
+                    assert response.status, 201
+                    return data
 
     async def signin_user(self, user):
         payload = {
             'username': user['username'],
             'password': user['password']
         }
-        async with aiohttp.ClientSession() as session:
-            async with session.post(self.get_url('/api/login/'), data=payload) as response:
-                data = await response.json()
-                assert response.status, 200
-                user['token'] = data['token']
-                return user
+        with await self.semaphore:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(self.get_url('/api/login/'), data=payload) as response:
+                    data = await response.json()
+                    assert response.status, 200
+                    user['token'] = data['token']
+                    return user
 
     async def create_post_for_user(self, user):
         f = faker.Faker()
         payload = {'content': f.sentence()}
-        async with aiohttp.ClientSession() as session:
-            async with session.post(self.get_url('/api/post/'), data=payload, headers={'Authorization': 'JWT ' + user['token']}) as response:
-                data = await response.json()
-                assert response.status, 201
-                return data
+        with await self.semaphore:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(self.get_url('/api/post/'), data=payload, headers={'Authorization': 'JWT ' + user['token']}) as response:
+                    data = await response.json()
+                    assert response.status, 201
+                    return data

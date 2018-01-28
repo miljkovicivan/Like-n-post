@@ -9,3 +9,5 @@ clearbit==0.1.7
 email_hunter_python==1.1.0
 punter==0.1.2
 pyyaml==3.12
+asyncio==3.4.3
+aiohttp==2.3.9

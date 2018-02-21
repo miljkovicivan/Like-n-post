@@ -33,9 +33,9 @@ urlpatterns = router.urls + [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include(router.urls)),
 
-    url(r'^api/enable_2fa/complete/', views.complete_2fa),
-    url(r'^api/enable_2fa/', views.enable_2fa),
-    url(r'^api/disable_2fa/', views.disable_2fa),
+    url(r'^api/2fa/complete/', views.complete_2fa),
+    url(r'^api/2fa/enable/', views.enable_2fa),
+    url(r'^api/2fa/disable/', views.disable_2fa),
 
     url(r'^api/login/', views.login),
     url(r'^api/post/', include('likenpost.apps.post.urls', namespace='post')),

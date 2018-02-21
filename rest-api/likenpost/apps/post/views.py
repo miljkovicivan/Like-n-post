@@ -137,7 +137,7 @@ class Enable2FA(APIView):
 
         TwoFA.objects.create(user=request.user, secret=secret)
 
-        qr_code = pyotp.totp.TOTP(secret).provisioning_uri(request.data['username'], issuer_name="TradeCore")
+        qr_code = totp.provisioning_uri(request.data['username'], issuer_name="TradeCore")
 
         return response.Response({'qr_code': qr_code})
 

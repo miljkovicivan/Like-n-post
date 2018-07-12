@@ -11,3 +11,4 @@ punter==0.1.2
 pyyaml==3.12
 asyncio==3.4.3
 aiohttp==2.3.9
+pyotp==2.2.6

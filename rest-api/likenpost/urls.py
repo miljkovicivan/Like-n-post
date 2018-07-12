@@ -32,7 +32,12 @@ urlpatterns = router.urls + [
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include(router.urls)),
-    url(r'^api/login/', obtain_jwt_token),
+
+    url(r'^api/2fa/complete/', views.complete_2fa),
+    url(r'^api/2fa/enable/', views.enable_2fa),
+    url(r'^api/2fa/disable/', views.disable_2fa),
+
+    url(r'^api/login/', views.login),
     url(r'^api/post/', include('likenpost.apps.post.urls', namespace='post')),
 ]
 

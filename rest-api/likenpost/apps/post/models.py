@@ -5,6 +5,13 @@ from django.contrib.postgres.fields import JSONField
 
 # Create your models here.
 
+class TwoFA(models.Model):
+    completed = models.BooleanField(default=False)
+    user = models.OneToOneField(User, related_name='two_fa', on_delete=models.DO_NOTHING)
+    secret = models.CharField(max_length=32)
+    created_at = models.DateTimeField(auto_now=True)
+
+
 class UserAdditionalData(models.Model):
     user = models.OneToOneField(User, related_name='user_additional_data', on_delete=models.CASCADE)
     additional_data = JSONField(null=True)
